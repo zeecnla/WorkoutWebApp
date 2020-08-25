@@ -12,37 +12,11 @@ function formatDate(date) {
 }
 
 const WorkoutList = (props) => {
-  const [error, setError] = useState(null)
-  const [workoutList, setWorkoutList] = useState([])
-
-  useEffect(() => {
-    const requestOptions = {
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }
-    fetch("http://localhost:5000/api/users/1/workouts/", requestOptions)
-      .then((resp) => {
-        console.log(resp)
-        return resp.json()
-      })
-      .then((data) => {
-        console.log(data)
-        console.log("sucess")
-        setWorkoutList(data)
-      })
-      .catch((error) => {
-        setError(error.toString())
-        console.error("There was an error!", error)
-      })
-  }, [])
   //ajax call here
-
+  console.log(props)
   return (
     <div className="list-group">
-      {workoutList.map(({ name, sets, reps, date, workoutId }, key) => (
+      {props.workoutList.map(({ name, sets, reps, date, workoutId }, key) => (
         <a
           href="#"
           className="list-group-item list-group-item-action flex-column align-items-start"

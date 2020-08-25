@@ -2,65 +2,13 @@ import React, { useState, useReducer } from "react"
 import { Toast } from "bootstrap"
 
 const WorkoutForm = (props) => {
-  const [error, setError] = useState(null)
-  const [sets, setSets] = useState()
-  const [reps, setReps] = useState()
-  const [weight, setWeight] = useState()
-  const [notes, setNotes] = useState("")
-
   //ajax call here
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  console.log(props)
 
-    const currentDate = new Date()
-
-    const workout = {
-      name: "react test",
-      sets: sets,
-      reps: reps,
-      weight: weight,
-      date: currentDate,
-      userId: 1,
-    }
-    const requestOptions = {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(workout),
-    }
-    console.log(requestOptions)
-    fetch("http://localhost:5000/api/users/1/workouts/", requestOptions)
-      .then((resp) => {
-        resp.json()
-      })
-      .then((result) => {
-        console.log("sucess")
-      })
-      .catch((error) => {
-        setError(error.toString())
-        console.error("There was an error!", error)
-      })
-    console.log("data ubmitted")
-  }
-  const handleChangeFor = (event) => {
-    console.log(event.target)
-    const { name, value } = event.target
-    console.log(name)
-    if (name === "sets") {
-      setSets(value)
-    } else if (name === "reps") {
-      setReps(value)
-    } else if (name === "weight") {
-      setWeight(value)
-    } else if (name === "notes") {
-      setNotes(value)
-    }
-  }
+  const { sets, reps, weight, notes } = props
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={props.handleSubmit}>
       <div className="form-group">
         <label htmlFor="sets">Sets</label>
         <input
@@ -69,7 +17,7 @@ const WorkoutForm = (props) => {
           id="sets"
           placeholder="5"
           name="sets"
-          onChange={handleChangeFor}
+          onChange={props.handleChangeFor}
           value={sets}
         />
       </div>
@@ -81,7 +29,7 @@ const WorkoutForm = (props) => {
           id="reps"
           placeholder="20"
           name="reps"
-          onChange={handleChangeFor}
+          onChange={props.handleChangeFor}
           value={reps}
         />
       </div>
@@ -93,7 +41,7 @@ const WorkoutForm = (props) => {
           id="weight"
           placeholder="20"
           name="weight"
-          onChange={handleChangeFor}
+          onChange={props.handleChangeFor}
           value={weight}
         />
       </div>
@@ -104,7 +52,7 @@ const WorkoutForm = (props) => {
           id="exampleFormControlTextarea1"
           rows="5"
           name="notes"
-          onChange={handleChangeFor}
+          onChange={props.handleChangeFor}
           value={notes}
         ></textarea>
       </div>

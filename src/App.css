@@ -1,11 +1,18 @@
 html,
 body {
   width: 100%;
+  padding: 5px;
 }
 
 .main {
-  margin: 1rem;
+  padding: 25px;
+  margin: auto;
 }
+
+.content {
+  padding: 20px;
+}
+
 
 .container-fluid {
   overflow: hidden;
