@@ -14,6 +14,7 @@ function App() {
   const [reps, setReps] = useState()
   const [weight, setWeight] = useState()
   const [notes, setNotes] = useState("")
+  const [name, setName] = useState("")
 
   useEffect(() => {
     console.log("i changed")
@@ -42,11 +43,12 @@ function App() {
     const currentDate = new Date()
 
     const workout = {
-      name: "react test",
+      name: name,
       sets: sets,
       reps: reps,
       weight: weight,
       date: currentDate,
+      notes: notes,
       userId: 1,
     }
     const requestOptions = {
@@ -62,7 +64,10 @@ function App() {
         resp.json()
       })
       .then((result) => {
-        console.log("sucess")
+        console.log("cesar")
+        console.log(result)
+        if (result) {
+        }
       })
       .catch((error) => {
         setError(error.toString())
@@ -83,6 +88,8 @@ function App() {
       setWeight(value)
     } else if (name === "notes") {
       setNotes(value)
+    } else if (name === "name") {
+      setName(value)
     }
   }
 

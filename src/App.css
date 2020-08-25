@@ -9,6 +9,10 @@ body {
   margin: auto;
 }
 
+.list-group h5 {
+  font-weight: bold;
+}
+
 .content {
   padding: 20px;
 }

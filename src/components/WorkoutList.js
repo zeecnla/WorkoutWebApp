@@ -13,7 +13,6 @@ function formatDate(date) {
 
 const WorkoutList = (props) => {
   //ajax call here
-  console.log(props)
   return (
     <div className="list-group">
       {props.workoutList.map(({ name, sets, reps, date, workoutId }, key) => (

@@ -5,10 +5,22 @@ const WorkoutForm = (props) => {
   //ajax call here
   console.log(props)
 
-  const { sets, reps, weight, notes } = props
+  const { name, sets, reps, weight, notes } = props
 
   return (
     <form onSubmit={props.handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          className="form-control"
+          id="name"
+          placeholder="Intense Squat Workout Level 9000"
+          name="name"
+          onChange={props.handleChangeFor}
+          value={name}
+        />
+      </div>
       <div className="form-group">
         <label htmlFor="sets">Sets</label>
         <input
@@ -49,7 +61,7 @@ const WorkoutForm = (props) => {
         <label htmlFor="exampleFormControlTextarea1">Notes</label>
         <textarea
           className="form-control"
-          id="exampleFormControlTextarea1"
+          id="notes"
           rows="5"
           name="notes"
           onChange={props.handleChangeFor}
