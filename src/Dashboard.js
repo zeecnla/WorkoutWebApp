@@ -8,7 +8,7 @@ import { Navbar } from "./components/Navbar"
 import WorkoutForm from "./components/WorkoutForm"
 import WorkoutList from "./components/WorkoutList"
 
-function Dashboard() {
+function Dashboard(props) {
   const [error, setError] = useState(null)
   const [workoutList, setWorkoutList] = useState([])
   const [sets, setSets] = useState()
@@ -97,6 +97,7 @@ function Dashboard() {
   return (
     <div className="container-fluid p-0 main">
       <Navbar />
+      <h1>Status: {props.loggedInStatus}</h1>
       <div className="row content">
         <div className="col-md-4">
           <WorkoutForm

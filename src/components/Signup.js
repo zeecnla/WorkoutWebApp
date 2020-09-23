@@ -1,76 +1,84 @@
 import React, { useState } from "react"
 import { Link, withRouter } from "react-router-dom"
+import axios from "axios"
+import { css } from "jquery"
 
+// TODO:
+//         1. fix alert for passwordnot match css
+//         2. Add contraints to password.
 export const Signup = (props) => {
-  const [firstName, setFirstName] = useState()
-  const [lastName, setLastName] = useState()
-  const [password, setPassword] = useState()
-  const [email, setEmail] = useState()
-  const [confirmPassword, setConfirmPassword] = useState()
-  const [error, setError] = useState({
-    notMatch: false,
+  const [state, setState] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    registrationErrors: "",
   })
-  const handleChangeFor = (event) => {
-    const { name, value } = event.target
-    if (name === "firstName") {
-      setFirstName(value)
-    } else if (name === "lastName") {
-      setLastName(value)
-    } else if (name === "email") {
-      setEmail(value)
-    } else if (name === "password") {
-      setPassword(value)
-    } else if (name === "confirmPassword") {
-      setConfirmPassword(value)
-    }
+
+  const handleChangeFor = (e) => {
+    const { name, value } = e.target
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+  const handleConfirmPassword = (e) => {
+    const { password, confirmPassword } = state
+    const error = password === confirmPassword ? "" : "Passwords Dont Match"
+    setState((prevState) => ({
+      ...prevState,
+      registrationErrors: error,
+    }))
   }
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (password !== confirmPassword) {
-      console.log("password dont match")
-      setError((prev) => ({
-        ...prev,
-        noMatch: true,
-      }))
-      return
-    }
-    setError((prev) => ({
-      ...prev,
-      noMatch: false,
-    }))
+    if (state.registrationErrors) return
 
-    const requestOptions = {
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-      }),
-    }
-    // fetch("http://localhost:5000/api/login/signup", requestOptions)
-    //   .then((resp) => {
-    //     //ok
-    //     if (resp.status == 200) {
-    //       console.log("success")
-    //       return resp.json()
-    //     }
-    //   })
-    //   .then((data) => {
-    //     console.log(data)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
-    props.history.push("/")
+    const {
+      email,
+      username,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+    } = state
+
+    axios
+      .post("http://localhost:5000/api/login/signup", {
+        FirstName: firstName,
+        LastName: lastName,
+        UserName: username,
+        Email: email,
+        Password: password,
+      })
+      .then((resp) => {
+        //ok
+        const { data } = resp
+        if (resp.status == 200 && data.message === "created") {
+          console.log("success")
+          props.history.push("/login")
+        } else {
+          setState((prevState) => ({
+            ...prevState,
+            registrationErrors: data.message,
+          }))
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        console.log("registration error", error)
+      })
   }
+
   return (
     <div className="login">
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+      >
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
           <input
@@ -81,7 +89,7 @@ export const Signup = (props) => {
             placeholder="First Name"
             name="firstName"
             onChange={handleChangeFor}
-            value={firstName}
+            value={state.firstName}
           />
         </div>
         <div className="form-group">
@@ -94,7 +102,20 @@ export const Signup = (props) => {
             name="lastName"
             placeholder="last name"
             onChange={handleChangeFor}
-            value={lastName}
+            value={state.lastName}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="username">User Name</label>
+          <input
+            required
+            type="text"
+            className="form-control"
+            id="username"
+            placeholder="User Name"
+            name="username"
+            onChange={handleChangeFor}
+            value={state.username}
           />
         </div>
         <div className="form-group">
@@ -107,7 +128,7 @@ export const Signup = (props) => {
             name="email"
             placeholder="Email"
             onChange={handleChangeFor}
-            value={email}
+            value={state.email}
           />
         </div>
         <div className="form-group">
@@ -120,7 +141,7 @@ export const Signup = (props) => {
             name="password"
             placeholder="password"
             onChange={handleChangeFor}
-            value={password}
+            value={state.password}
           />
         </div>
         <div className="form-group">
@@ -133,17 +154,24 @@ export const Signup = (props) => {
             name="confirmPassword"
             placeholder="password"
             onChange={handleChangeFor}
-            value={confirmPassword}
+            value={state.confirmPassword}
+            onBlur={handleConfirmPassword}
           />
         </div>
+        {state.registrationErrors ?? (
+          <div className="form-group">
+            <span className="alert alert-danger">
+              <p>{state.registrationErrors}</p>
+            </span>
+          </div>
+        )}
         <div className="form-group">
-          {error.match ?? (
-            <span className="alert-danger">Passwords don't match</span>
-          )}
-          <button className="form-control bg-primary text-white">Submit</button>
+          <button className="form-control bg-primary text-white">
+            Sign up
+          </button>
         </div>
         <div className="form-group">
-          <Link to="/">Login</Link>
+          <Link to="/login">Login</Link>
         </div>
       </form>
     </div>
