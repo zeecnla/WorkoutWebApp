@@ -8,6 +8,8 @@ import { Navbar } from "./components/Navbar"
 import WorkoutForm from "./components/WorkoutForm"
 import WorkoutList from "./components/WorkoutList"
 
+import authAxios from "./components/auth/auth"
+
 function Dashboard(props) {
   const [error, setError] = useState(null)
   const [workoutList, setWorkoutList] = useState([])
@@ -18,19 +20,32 @@ function Dashboard(props) {
   const [name, setName] = useState("")
 
   useEffect(() => {
-    console.log("i changed")
-    const requestOptions = {
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }
-    fetch("http://localhost:5000/api/users/1/workouts/", requestOptions)
+    console.log("initial render")
+
+    authAxios
+      .get("/user/logged_in")
       .then((resp) => {
+        console.log(resp)
+      })
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+
+  useEffect(() => {
+    console.log("i changed")
+    console.log(props)
+    authAxios
+      .get(`/users/${props.user.id}/workouts/`)
+      .then((resp) => {
+        console.log(resp)
         return resp.json()
       })
       .then((data) => {
+        console.log(data)
         setWorkoutList(data)
       })
       .catch((error) => {

@@ -3,6 +3,8 @@ import "../App.css"
 import { Link } from "react-router-dom"
 import axios from "axios"
 
+import { apiURL } from "./auth/auth"
+
 export const Login = (props) => {
   const [state, setState] = useState({
     username: "",
@@ -23,7 +25,7 @@ export const Login = (props) => {
 
     axios
       .post(
-        "http://localhost:5000/api/login",
+        `${apiURL}/login`,
         {
           username,
           password,
@@ -34,7 +36,7 @@ export const Login = (props) => {
       )
       .then((resp) => {
         //ok
-        console.log(resp)
+        console.log("login ok")
         if (resp.status == 200) {
           const { data } = resp
 
@@ -43,11 +45,12 @@ export const Login = (props) => {
         }
       })
       .catch((error) => {
-        const { message } = error.response.data
-        setState((prevState) => ({
-          ...prevState,
-          loginErrors: message,
-        }))
+        console.log(error)
+        // const { message } = error.response.data
+        // setState((prevState) => ({
+        //   ...prevState,
+        //   loginErrors: message,
+        // }))
       })
   }
 

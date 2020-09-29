@@ -8,6 +8,7 @@ import "./Dashboard"
 import Dashboard from "./Dashboard"
 import { Login } from "./components/Login"
 import { Signup } from "./components/Signup"
+import localStorageService from "./services/LocalStorageService"
 
 const App = () => {
   const [state, setState] = useState({
@@ -16,12 +17,18 @@ const App = () => {
   })
   //user wil have user id to call the api along with the token.
   const handleLogin = (data) => {
+    const { jwtToken } = data
     console.log(data)
-    setState((prevState) => ({
-      ...prevState,
+
+    console.log("handle login")
+    setState({
       loggedInStatus: "LOGGED_IN",
       user: data,
-    }))
+    })
+    console.log(jwtToken)
+    console.log(data)
+    localStorageService.setToken(jwtToken)
+    //set token here
   }
   return (
     <Switch>
@@ -29,7 +36,11 @@ const App = () => {
         exact
         path="/"
         render={(props) => (
-          <Dashboard {...props} loggedInStatus={state.loggedInStatus} />
+          <Dashboard
+            {...props}
+            loggedInStatus={state.loggedInStatus}
+            user={state.user}
+          />
         )}
       />
       <Route
