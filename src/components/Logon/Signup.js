@@ -1,12 +1,10 @@
 import React, { useState } from "react"
 import { Link, withRouter } from "react-router-dom"
-import axios from "axios"
-import { css } from "jquery"
 
 // TODO:
 //         1. fix alert for passwordnot match css
 //         2. Add contraints to password.
-export const Signup = (props) => {
+const Signup = (props) => {
   const [state, setState] = useState({
     email: "",
     firstName: "",
@@ -14,9 +12,9 @@ export const Signup = (props) => {
     username: "",
     password: "",
     confirmPassword: "",
-    registrationErrors: "",
   })
-
+  const [isErrors, setIsErrors] = useState(false)
+  const [passwordsMatch, setPasswordsMatch] = useState(false)
   const handleChangeFor = (e) => {
     const { name, value } = e.target
     setState((prevState) => ({
@@ -26,49 +24,10 @@ export const Signup = (props) => {
   }
   const handleConfirmPassword = (e) => {
     const { password, confirmPassword } = state
-    const error = password === confirmPassword ? "" : "Passwords Dont Match"
-    setState((prevState) => ({
-      ...prevState,
-      registrationErrors: error,
-    }))
+    setPasswordsMatch(password == confirmPassword)
   }
   const handleSubmit = (e) => {
-    if (state.registrationErrors) return
-
-    const {
-      email,
-      username,
-      password,
-      confirmPassword,
-      firstName,
-      lastName,
-    } = state
-
-    axios
-      .post("http://localhost:5000/api/login/signup", {
-        FirstName: firstName,
-        LastName: lastName,
-        UserName: username,
-        Email: email,
-        Password: password,
-      })
-      .then((resp) => {
-        //ok
-        const { data } = resp
-        if (resp.status == 200 && data.message === "created") {
-          console.log("success")
-          props.history.push("/login")
-        } else {
-          setState((prevState) => ({
-            ...prevState,
-            registrationErrors: data.message,
-          }))
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        console.log("registration error", error)
-      })
+    if (!passwordsMatch) return
   }
 
   return (
@@ -158,13 +117,6 @@ export const Signup = (props) => {
             onBlur={handleConfirmPassword}
           />
         </div>
-        {state.registrationErrors ?? (
-          <div className="form-group">
-            <span className="alert alert-danger">
-              <p>{state.registrationErrors}</p>
-            </span>
-          </div>
-        )}
         <div className="form-group">
           <button className="form-control bg-primary text-white">
             Sign up
@@ -173,7 +125,23 @@ export const Signup = (props) => {
         <div className="form-group">
           <Link to="/login">Login</Link>
         </div>
+        {isErrors ?? (
+          <div className="form-group">
+            <span className="alert alert-danger">
+              <p>{"An Error Occurred"}</p>
+            </span>
+          </div>
+        )}
+        {!passwordsMatch ?? (
+          <div className="form-group">
+            <span className="alert alert-danger">
+              <p>{"Passwords Dont Match"}</p>
+            </span>
+          </div>
+        )}
       </form>
     </div>
   )
 }
+
+export default Signup

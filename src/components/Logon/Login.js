@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react"
-import "../App.css"
-import { Link } from "react-router-dom"
+import "../../App.css"
+import { Link, Redirect } from "react-router-dom"
 import axios from "axios"
+import { useAuth } from "../../context/auth-context"
 
-import { apiURL } from "./auth/auth"
-
-export const Login = (props) => {
+const Login = () => {
+  const { login } = useAuth()
+  const [isError, setIsError] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [state, setState] = useState({
     username: "",
     password: "",
-    loginErrors: "",
   })
-
   const handleChangeFor = (e) => {
     const { name, value } = e.target
     setState((prevState) => ({
@@ -19,41 +19,10 @@ export const Login = (props) => {
       [name]: value,
     }))
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const { username, password, loginErrors } = state
-
-    axios
-      .post(
-        `${apiURL}/login`,
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((resp) => {
-        //ok
-        console.log("login ok")
-        if (resp.status == 200) {
-          const { data } = resp
-
-          props.handleLogin(data)
-          props.history.push("/")
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        // const { message } = error.response.data
-        // setState((prevState) => ({
-        //   ...prevState,
-        //   loginErrors: message,
-        // }))
-      })
+    await login(state)
   }
-
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
@@ -81,20 +50,23 @@ export const Login = (props) => {
             value={state.password}
           />
         </div>
-        {state.loginErrors ?? (
-          <div className="form-group">
-            <span className="alert alert-danger">
-              <p>{state.loginErrors}</p>
-            </span>
-          </div>
-        )}
+
         <div className="form-group">
           <button className="form-control bg-primary text-white">Login</button>
         </div>
         <div className="form-group">
           <Link to="/signup">Register</Link>
         </div>
+        {isError ?? (
+          <div className="form-group">
+            <span className="alert alert-danger">
+              <p>The username or password provided were incorrect!</p>
+            </span>
+          </div>
+        )}
       </form>
     </div>
   )
 }
+
+export default Login

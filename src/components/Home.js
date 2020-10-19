@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+
 import "jquery"
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap/dist/js/bootstrap"
-import "./App.css"
-import { Navbar } from "./components/Navbar"
-import WorkoutForm from "./components/WorkoutForm"
-import WorkoutList from "./components/WorkoutList"
+import "../App.css"
 
-import authAxios from "./components/auth/auth"
+import authAxios from "../services/AuthService"
 
-function Dashboard(props) {
+import { apiURL } from "../services/AuthService"
+import Dashboard from "./Dashboard/Dashboard"
+import { useAuth } from "../context/auth-context"
+
+function Home() {
+  const { user } = useAuth()
   const [error, setError] = useState(null)
   const [workoutList, setWorkoutList] = useState([])
   const [sets, setSets] = useState()
@@ -20,26 +22,11 @@ function Dashboard(props) {
   const [name, setName] = useState("")
 
   useEffect(() => {
-    console.log("initial render")
-
+    console.log(authAxios)
     authAxios
-      .get("/user/logged_in")
-      .then((resp) => {
-        console.log(resp)
+      .get(`${apiURL}/users/${user?.id}/workouts/`, {
+        withCredentials: true,
       })
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
-
-  useEffect(() => {
-    console.log("i changed")
-    console.log(props)
-    authAxios
-      .get(`/users/${props.user.id}/workouts/`)
       .then((resp) => {
         console.log(resp)
         return resp.json()
@@ -49,6 +36,7 @@ function Dashboard(props) {
         setWorkoutList(data)
       })
       .catch((error) => {
+        console.log(error)
         setError(error.toString())
       })
   }, [workoutList.length])
@@ -65,17 +53,10 @@ function Dashboard(props) {
       weight: weight,
       date: currentDate,
       notes: notes,
-      userId: 1,
+      userId: user.id,
     }
-    const requestOptions = {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(workout),
-    }
-    fetch("http://localhost:5000/api/users/1/workouts/", requestOptions)
+    authAxios
+      .post(`/users/${user.id}/workouts/`, workout)
       .then((resp) => {
         resp.json()
       })
@@ -93,9 +74,7 @@ function Dashboard(props) {
     setWorkoutList((old) => [...old, workout])
   }
   const handleChangeFor = (event) => {
-    console.log(event.target)
     const { name, value } = event.target
-    console.log(name)
     if (name === "sets") {
       setSets(value)
     } else if (name === "reps") {
@@ -108,24 +87,15 @@ function Dashboard(props) {
       setName(value)
     }
   }
-
   return (
     <div className="container-fluid p-0 main">
-      <Navbar />
-      <h1>Status: {props.loggedInStatus}</h1>
-      <div className="row content">
-        <div className="col-md-4">
-          <WorkoutForm
-            handleSubmit={handleSubmit}
-            handleChangeFor={handleChangeFor}
-          />
-        </div>
-        <div className="col-md-8">
-          <WorkoutList workoutList={workoutList} />
-        </div>
-      </div>
+      <Dashboard
+        handleChangeFor={handleChangeFor}
+        handleSubmit={handleSubmit}
+        workoutList={workoutList}
+      />
     </div>
   )
 }
 
-export default Dashboard
+export default Home

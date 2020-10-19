@@ -19,7 +19,7 @@ const WorkoutList = (props) => {
         <a
           href="#"
           className="list-group-item list-group-item-action flex-column align-items-start"
-          key={workoutId}
+          key={key}
           style={{ paddingTop: "10px" }}
         >
           <div className="d-flex w-100 justify-content-between">
