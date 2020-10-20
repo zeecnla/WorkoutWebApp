@@ -24,19 +24,16 @@ function Home() {
   useEffect(() => {
     console.log(authAxios)
     authAxios
-      .get(`${apiURL}/users/${user?.id}/workouts/`, {
-        withCredentials: true,
-      })
+      .get(`/users/${user?.id}/workouts/all`)
       .then((resp) => {
         console.log(resp)
-        return resp.json()
+        return resp
       })
-      .then((data) => {
+      .then(({ data }) => {
         console.log(data)
         setWorkoutList(data)
       })
       .catch((error) => {
-        console.log(error)
         setError(error.toString())
       })
   }, [workoutList.length])
@@ -58,12 +55,11 @@ function Home() {
     authAxios
       .post(`/users/${user.id}/workouts/`, workout)
       .then((resp) => {
-        resp.json()
-      })
-      .then((result) => {
         console.log("cesar")
-        console.log(result)
-        if (result) {
+        console.log(resp)
+        if (resp.status !== 200) {
+          setError("Error in response")
+          console.error("There was an error!", error)
         }
       })
       .catch((error) => {

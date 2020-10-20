@@ -7,7 +7,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json"
 
 const authAxios = axios.create({
   baseURL: apiURL,
-  withCredentials: true,
+  "Access-Control-Allow-Credentials": "*",
 })
 
 authAxios.interceptors.request.use(
@@ -16,6 +16,7 @@ authAxios.interceptors.request.use(
     // the `headers`.
     const token = localStorageService.getAccessToken()
     req.headers.Authorization = `Bearer ${token}`
+    console.log(req)
     return req
   },
   (error) => {
@@ -30,6 +31,7 @@ authAxios.interceptors.response.use(
     return resp
   },
   (error) => {
+    console.log("Outside error")
     console.log(error)
     const errorInfo = error
     const originalRequest = error.config
@@ -41,30 +43,29 @@ authAxios.interceptors.response.use(
     console.log("inside auth axios error")
     if (
       error.response?.status === 401 &&
-      originalRequest?.url === apiURL + "/refresh-token"
+      originalRequest?.url === apiURL + "/login/refresh-token"
     ) {
       console.log("returning...")
-      //   Router.push("/login")
       return Promise.reject(error)
     }
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401) {
       console.log("inside if in authaxios")
-      originalRequest._retry = true
-      const refreshToken = localStorageService.getRefreshToken()
       return authAxios
-        .post(apiURL + "/refresh-token", { withCredentials: true })
+        .post(apiURL + "/login/refresh-token", {}, { withCredentials: true })
         .then((res) => {
           console.log("zion")
           console.log(res)
-          if (res.status === 201) {
-            localStorageService.setToken(res.data.JwtToken)
+          if (res.status === 200) {
+            console.log("updateing token")
+            localStorageService.setToken(res.data.jwtToken)
             authAxios.defaults.headers.common["Authorization"] =
               "Bearer " + localStorageService.getAccessToken()
-            return axios(originalRequest)
+            return authAxios(originalRequest)
           }
         })
         .catch((error) => {
+          console.log("refresh token error it")
           console.log(error)
         })
     }
