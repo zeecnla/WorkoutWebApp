@@ -36,13 +36,12 @@ function Home() {
       .catch((error) => {
         setError(error.toString())
       })
-  }, [workoutList.length])
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const currentDate = new Date()
-
     const workout = {
       name: name,
       sets: sets,
@@ -52,12 +51,15 @@ function Home() {
       notes: notes,
       userId: user.id,
     }
+
     authAxios
       .post(`/users/${user.id}/workouts/`, workout)
       .then((resp) => {
         console.log("cesar")
         console.log(resp)
-        if (resp.status !== 200) {
+        if (resp.status === 200) {
+          setWorkoutList((old) => [workout, ...old])
+        } else {
           setError("Error in response")
           console.error("There was an error!", error)
         }
@@ -66,8 +68,6 @@ function Home() {
         setError(error.toString())
         console.error("There was an error!", error)
       })
-
-    setWorkoutList((old) => [...old, workout])
   }
   const handleChangeFor = (event) => {
     const { name, value } = event.target

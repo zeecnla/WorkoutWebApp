@@ -69,7 +69,7 @@ const WorkoutForm = (props) => {
         ></textarea>
       </div>
       <div className="form-group">
-        <button className="form-control">Submit</button>
+        <button className="form-control bg-primary text-white">Submit</button>
       </div>
     </form>
   )
