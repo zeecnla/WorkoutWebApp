@@ -22,10 +22,15 @@ function AppRoutes({ user }) {
 function AuthenticatedApp() {
   const { user } = useAuth()
   return (
-    <div className="container">
-      <Navbar />
-      <AppRoutes user={user} />
+    <div className="container-fluid">
+      <div className="row min-vh-100 flex-column flex-md-row">
+        <Navbar />
+      <div className="col bg-faded py-3 flex-grow-1">
+        <AppRoutes user={user} />
+      </div>
+      </div>
     </div>
+
   )
 }
 

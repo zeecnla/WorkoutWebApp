@@ -84,13 +84,14 @@ function Home() {
     }
   }
   return (
-    <div className="container-fluid p-0 main">
+      <>
+
       <Dashboard
         handleChangeFor={handleChangeFor}
         handleSubmit={handleSubmit}
         workoutList={workoutList}
       />
-    </div>
+      </>
   )
 }
 

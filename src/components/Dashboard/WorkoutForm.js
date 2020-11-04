@@ -22,6 +22,15 @@ const WorkoutForm = (props) => {
         />
       </div>
       <div className="form-group">
+        <label htmlFor="category">Category</label>
+        <select>
+          <option value="1">Bench</option>
+          <option value="2">Squats</option>
+          <option value="3">Overhead</option>
+          <option value="4">Deadlifts</option>
+        </select>
+      </div>
+      <div className="form-group">
         <label htmlFor="sets">Sets</label>
         <input
           type="text"
