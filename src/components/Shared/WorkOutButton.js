@@ -1,7 +1,12 @@
 import React from "react"
 
-const WorkOutButton = ()=>(
+const WorkOutButton = ({openModal})=>(
     <button
+        onClick={openModal}
+         type="button"
+         className="btn btn-primary"
+         data-toggle="modal"
+         data-target=".bd-workout-modal-lg"
         style={{
             width: `150px`,
             height: `100px`,
@@ -11,8 +16,9 @@ const WorkOutButton = ()=>(
             color: `rgb(255, 255, 255)`,
             textAlign: `left`,
             fontWeight: `bold`,
+            fontSize:'20px',
             display: `flex`,
-            padding: `20px`,
+            padding: `15px`,
         }}>
         Create New Workout
     </button>

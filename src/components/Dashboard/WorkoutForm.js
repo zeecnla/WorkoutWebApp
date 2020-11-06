@@ -1,11 +1,10 @@
-import React, { useState, useReducer } from "react"
-import { Toast } from "bootstrap"
+import React from "react"
+
 
 const WorkoutForm = (props) => {
-  //ajax call here
-  console.log(props)
 
-  const { name, sets, reps, weight, notes } = props
+
+  const { name, sets, reps, weight, notes,category } = props.workout
 
   return (
     <form onSubmit={props.handleSubmit}>
@@ -23,7 +22,14 @@ const WorkoutForm = (props) => {
       </div>
       <div className="form-group">
         <label htmlFor="category">Category</label>
-        <select>
+        <select
+          className="form-control"
+          id="category"
+          name="category"
+          onChange={props.handleChangeFor}
+          value={category}
+          >
+          <option value=''></option>
           <option value="1">Bench</option>
           <option value="2">Squats</option>
           <option value="3">Overhead</option>
@@ -78,7 +84,10 @@ const WorkoutForm = (props) => {
         ></textarea>
       </div>
       <div className="form-group">
-        <button className="form-control bg-primary text-white">Submit</button>
+        <button
+        type="submit"
+        className="form-control bg-primary text-white"
+        >Submit</button>
       </div>
     </form>
   )

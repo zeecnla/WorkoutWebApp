@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom"
 import Progress from "./components/Progress/Progress"
 import Plan from "./components/Plan/Plan"
 import { Navbar } from "./components/Shared/Navbar"
-import Home from "./components/Home"
+import Dashboard from "./components/Dashboard/Dashboard"
 import { useAuth } from "./context/auth-context"
 
 import NotFoundScreen from "./components/Shared/NotFoundScreen"
@@ -12,7 +12,7 @@ import Login from "./components/Logon/Login"
 function AppRoutes({ user }) {
   return (
     <Switch>
-      <Route exact path="/" render={() => <Home />} />
+      <Route exact path="/" render={() => <Dashboard />} />
       <Route path="/plan" render={() => <Plan />} />
       <Route path="/progress" render={() => <Progress />} />
       <Route path="*" render={() => (user ? <NotFoundScreen /> : <Login />)} />
