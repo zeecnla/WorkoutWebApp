@@ -1,6 +1,12 @@
-import React from "react"
-import "./App.css"
-
-const App = () => <div>here is the app</div>
+import React, { useContext } from "react"
+import Application from "./components/Application"
+import UserProvider from "./providers/UserProvider"
+function App() {
+  return (
+    <UserProvider>
+      <Application />
+    </UserProvider>
+  )
+}
 
 export default App
