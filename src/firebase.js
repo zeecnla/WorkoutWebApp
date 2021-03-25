@@ -2,15 +2,6 @@ import firebase from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA9GMpRDYqDY2PWPy9jec6tAkN3er-h9BY",
-  authDomain: "workouttracker-469d0.firebaseapp.com",
-  projectId: "workouttracker-469d0",
-  storageBucket: "workouttracker-469d0.appspot.com",
-  messagingSenderId: "611737700535",
-  appId: "1:611737700535:web:eb0c94bde64c2de59d2532",
-  measurementId: "G-EQFH96WFLE",
-}
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
