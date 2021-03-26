@@ -26,7 +26,7 @@ function loginReducer(state, action) {
 }
 const Login = () => {
   const history = useHistory()
-  const [user,setUser] = useContext(UserContext)
+  const [user, setUser] = useContext(UserContext)
 
   const [state, dispatch] = useReducer(loginReducer, {
     email: "",
@@ -39,13 +39,11 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then((userCredential) => {
-        console.log(userCredential)
+        console.log(user)
 
         setUser(userCredential)
         console.log("is this succes")
-        debugger;
         history.push("/")
-
       })
       .catch((error) => {
         dispatch({
@@ -90,7 +88,9 @@ const Login = () => {
         />
         <button type="submit">Submit</button>
       </form>
-      <span ><Link to="/signup">Click here to sign up instead</Link></span>
+      <span>
+        <Link to="/signup">Click here to sign up instead</Link>
+      </span>
       <button onClick={() => signInWithGoogle()}>Sign in with google</button>
     </>
   )

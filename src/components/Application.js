@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { UserContext } from "../providers/UserProvider"
 
 function Application() {
-  const [{user}] = useContext(UserContext)
+  const [{ user }] = useContext(UserContext)
 
   console.log(user)
   return <Router>{user ? <Authenticated /> : <Unauthenticated />}</Router>
