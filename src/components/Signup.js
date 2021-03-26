@@ -1,5 +1,8 @@
 import React, { useReducer } from "react"
 import { auth, signInWithGoogle, generateUserDocument } from "../firebase"
+import { useHistory } from "react-router-dom"
+
+
 
 function loginReducer(state, action) {
   switch (action.type) {
@@ -12,6 +15,7 @@ function loginReducer(state, action) {
     case "CLEAR": {
       return {
         ...state,
+        name:"",
         email: "",
         displayName: "",
         password: "",
@@ -23,8 +27,18 @@ function loginReducer(state, action) {
   }
 }
 
+function googleSignIn(){
+  signInWithGoogle().catch(error=>{
+    console.log(error)
+    alert(error);
+  })
+}
+
 const Signup = () => {
+  const history = useHistory();
+
   const [state, dispatch] = useReducer(loginReducer, {
+    name:"",
     email: "",
     displayName: "",
     password: "",
@@ -34,16 +48,19 @@ const Signup = () => {
   async function handleSubmit(event) {
     event.preventDefault()
     try {
-      const { email, displayName, password } = state
+      const { email, displayName, password, name } = state
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       )
-      generateUserDocument(user, { displayName })
+      generateUserDocument(user, { displayName, name })
     } catch (error) {
       dispatch({ type: `SET_FIELD`, field: `error`, payload: error })
     }
     dispatch({ type: `CLEAR` })
+    history.push("/")
+    debugger;
+
   }
   const handleOnChange = (event) => {
     const { name, value } = event.target
@@ -99,7 +116,7 @@ const Signup = () => {
         {state.error !== null ?? <span>There was an error {state.error}</span>}
         <button type="submit">Submit</button>
       </form>
-      <button onClick={() => signInWithGoogle()}>Sign in with Google</button>
+      <button onClick={() => googleSignIn()}>Sign in with Google</button>
     </>
   )
 }
