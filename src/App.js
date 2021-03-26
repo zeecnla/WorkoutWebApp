@@ -1,11 +1,11 @@
 import React from "react"
 import Application from "./components/Application"
-import UserProvider from "./providers/UserProvider"
+import {AuthProvider} from "./providers/AuthProvider"
 function App() {
   return (
-    <UserProvider>
+    <AuthProvider>
       <Application />
-    </UserProvider>
+    </AuthProvider>
   )
 }
 

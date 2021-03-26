@@ -1,21 +1,21 @@
-import React, { useContext } from "react"
+import React from "react"
 import { auth } from "../firebase"
-import { UserContext } from "../providers/UserProvider"
+import useUser from "../context/auth"
 
 function Logout() {
-  const [, setUser] = useContext(UserContext)
+   const [,setUser] = useUser()
   function signout() {
     auth
       .signOut()
       .then((userCredential) => {
-        setUser({})
+        setUser(null)
       })
       .catch((error) => {
         console.log("there was an error")
       })
   }
 
-  return <button onClick={signout()}>Logout</button>
+  return <button onClick={()=> signout()}>Logout</button>
 }
 
 export default Logout

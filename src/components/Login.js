@@ -1,7 +1,7 @@
-import React, { useContext, useReducer } from "react"
+import React, { useReducer } from "react"
 import { auth, signInWithGoogle } from "../firebase"
 import { Link, useHistory } from "react-router-dom"
-import { UserContext } from "../providers/UserProvider"
+import useUser from "../context/auth"
 //TODO: Instead of use state. try using use reducer since we have multiple values in our object
 function loginReducer(state, action) {
   switch (action.type) {
@@ -26,7 +26,7 @@ function loginReducer(state, action) {
 }
 const Login = () => {
   const history = useHistory()
-  const [user, setUser] = useContext(UserContext)
+  const [,setUser] = useUser()
 
   const [state, dispatch] = useReducer(loginReducer, {
     email: "",
@@ -39,10 +39,11 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then((userCredential) => {
-        console.log(user)
+        const user = userCredential.user
 
-        setUser(userCredential)
+        setUser({user})
         console.log("is this succes")
+        debugger;
         history.push("/")
       })
       .catch((error) => {
