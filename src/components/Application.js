@@ -1,7 +1,8 @@
 import React from "react"
-import Authenticated from "./Authenticated"
-import Unauthenticated from "./Unauthenticated"
 import useUser from "../context/auth"
+
+const Authenticated = React.lazy(()=> import('./Authenticated'))
+const Unauthenticated = React.lazy(()=>import('./Unauthenticated'))
 
 function Application() {
   const [user] = useUser()

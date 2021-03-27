@@ -1,10 +1,13 @@
-import React from "react"
+import React, { Suspense } from "react"
 import Application from "./components/Application"
+import Loading from "./components/utils/Loading"
 import {AuthProvider} from "./providers/AuthProvider"
 function App() {
   return (
     <AuthProvider>
-      <Application />
+      <Suspense fallback={<Loading/>}>
+        <Application />
+      </Suspense>
     </AuthProvider>
   )
 }
