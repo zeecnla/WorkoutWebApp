@@ -1,4 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from "react"
+import useUser from "../context/auth"
+import { firestore } from "../firebase"
 
 function workoutFormReducer(state, action) {
   switch (action.type) {
@@ -6,28 +8,37 @@ function workoutFormReducer(state, action) {
       return {
         ...state,
         [action.field]: action.payload,
-      };
+      }
+    }
+    case "CLEAR": {
+      return {
+        name: "",
+        sets: 0,
+        reps: 0,
+        weight: 0,
+      }
     }
     default: {
-      throw new Error(`Unhandled Action type ${action.type}`);
+      throw new Error(`Unhandled Action type ${action.type}`)
     }
   }
 }
 
 function WorkoutForm() {
+  const [user] = useUser()
   const [state, dispatch] = useReducer(workoutFormReducer, {
     name: "",
     sets: 0,
     reps: 0,
     weight: 0,
-  });
+  })
   function handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault()
   }
   const handleOnChange = (event) => {
-    const { name, value } = event.target;
-    dispatch({ type: `SET_FIELD`, field: name, payload: value });
-  };
+    const { name, value } = event.target
+    dispatch({ type: `SET_FIELD`, field: name, payload: value })
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -91,8 +102,9 @@ function WorkoutForm() {
         }
         value={state.weight}
       ></input>
+      <button type="submit">Submit</button>
     </form>
-  );
+  )
 }
 
-export default WorkoutForm;
+export default WorkoutForm

@@ -2,8 +2,6 @@ import React, { useReducer } from "react"
 import { auth, signInWithGoogle, generateUserDocument } from "../firebase"
 import { useHistory } from "react-router-dom"
 
-
-
 function loginReducer(state, action) {
   switch (action.type) {
     case "SET_FIELD": {
@@ -15,7 +13,7 @@ function loginReducer(state, action) {
     case "CLEAR": {
       return {
         ...state,
-        name:"",
+        name: "",
         email: "",
         displayName: "",
         password: "",
@@ -27,18 +25,18 @@ function loginReducer(state, action) {
   }
 }
 
-function googleSignIn(){
-  signInWithGoogle().catch(error=>{
+function googleSignIn() {
+  signInWithGoogle().catch((error) => {
     console.log(error)
-    alert(error);
+    alert(error)
   })
 }
 
 const Signup = () => {
-  const history = useHistory();
+  const history = useHistory()
 
   const [state, dispatch] = useReducer(loginReducer, {
-    name:"",
+    name: "",
     email: "",
     displayName: "",
     password: "",
@@ -59,8 +57,6 @@ const Signup = () => {
     }
     dispatch({ type: `CLEAR` })
     history.push("/")
-    debugger;
-
   }
   const handleOnChange = (event) => {
     const { name, value } = event.target
