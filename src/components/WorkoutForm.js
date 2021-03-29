@@ -1,6 +1,6 @@
 import React, { useReducer } from "react"
 import useUser from "../context/auth"
-import { firestore } from "../firebase"
+import { firestore, generateUserWorkout } from "../firebase"
 
 function workoutFormReducer(state, action) {
   switch (action.type) {
@@ -34,6 +34,7 @@ function WorkoutForm() {
   })
   function handleSubmit(event) {
     event.preventDefault()
+    generateUserWorkout(state, user)
   }
   const handleOnChange = (event) => {
     const { name, value } = event.target

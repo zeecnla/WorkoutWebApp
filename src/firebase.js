@@ -27,36 +27,43 @@ export const signInWithGoogle = () => {
 export const generateUserWorkout = async (workout, user) => {
   if (!user) return
 
-  const workoutRef = firestore.doc(`workouts/${workout.uid}`)
-  const snapshot = await workoutRef.get()
-
-  if (!snapshot.exists) {
-    const { name, reps, sets, weight } = workout
-    try {
-      await workoutRef.set({
-        name,
-        reps,
-        sets,
-        weight,
-      })
-    } catch (error) {
+  const { name, reps, sets, weight } = workout
+  firestore
+    .collection("users")
+    .doc(user.uid)
+    .collection("workouts")
+    .add({
+      name,
+      reps,
+      sets,
+      weight,
+    })
+    .then((docRef) => {
+      console.log("success")
+    })
+    .catch((error) => {
       console.error("Error creating workout document", error)
-    }
-  }
-  return getWorkoutDocument(workout.uid)
+    })
 }
 
-const getWorkoutDocument = async (uid) => {
-  if (!uid) return null
-  try {
-    const workoutDocument = await firestore.doc(`workouts/${uid}`).get()
+export const getAllUserWorkouts = (user) => {
+  if (!user) return
 
-    return {
-      uid,
-      ...workoutDocument.data(),
-    }
+  try {
+    const workouts = firestore
+      .collection("users")
+      .doc(user.uid)
+      .collection("workouts")
+      .get()
+      .then((results) => {
+        results.forEach((doc) => {
+          console.log(doc.id, "=>", doc.data())
+        })
+      })
+
+    return workouts
   } catch (error) {
-    console.error("Error fetching workout", error)
+    console.log("Error retrieveing items")
   }
 }
 
