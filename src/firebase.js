@@ -28,6 +28,7 @@ export const generateUserWorkout = async (workout, user) => {
   if (!user) return
 
   const { name, reps, sets, weight } = workout
+  const date = new Date()
   firestore
     .collection("users")
     .doc(user.uid)
@@ -37,6 +38,7 @@ export const generateUserWorkout = async (workout, user) => {
       reps,
       sets,
       weight,
+      date,
     })
     .then((docRef) => {
       console.log("success")
@@ -50,18 +52,17 @@ export const getAllUserWorkouts = (user) => {
   if (!user) return
 
   try {
-    const workouts = firestore
+    return firestore
       .collection("users")
       .doc(user.uid)
       .collection("workouts")
       .get()
-      .then((results) => {
-        results.forEach((doc) => {
-          console.log(doc.id, "=>", doc.data())
-        })
-      })
-
-    return workouts
+    // .then((results) => {
+    //   results.forEach((doc) => {
+    //     console.log(doc.id, "=>", doc.data())
+    //     workouts.push(doc.data())
+    //   })
+    // })
   } catch (error) {
     console.log("Error retrieveing items")
   }

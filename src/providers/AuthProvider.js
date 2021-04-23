@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Loading from "../components/utils/Loading"
 import { auth, generateUserDocument } from "../firebase"
 
@@ -10,12 +10,9 @@ function AuthProvider(props) {
   const [user, setUser] = useState()
   const value = React.useMemo(() => [user, setUser], [user])
 
-
-  
-
   //check if user is still logged in here
   useEffect(() => {
-     function AuthStateChange(){
+    function AuthStateChange() {
       auth.onAuthStateChanged(async (userAuth) => {
         const user = await generateUserDocument(userAuth)
         console.log(user)
@@ -25,16 +22,15 @@ function AuthProvider(props) {
       })
     }
     AuthStateChange()
-    
   }, [])
 
-  if(isLoading){
-    return <Loading/>
+  if (isLoading) {
+    return <Loading />
   }
 
   return <AuthContext.Provider value={value} {...props} />
 }
 
-const useAuth = ()=> React.useContext(AuthContext)
+const useAuth = () => React.useContext(AuthContext)
 
-export{ AuthProvider, useAuth}
+export { AuthProvider, useAuth }

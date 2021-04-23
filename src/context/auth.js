@@ -1,15 +1,13 @@
-import React, { useContext } from "react"
-import {useAuth} from "../providers/AuthProvider"
+import { useAuth } from "../providers/AuthProvider"
 
+function useUser() {
+  const context = useAuth()
 
-function useUser(){
-    const context = useAuth()
+  if (!context) {
+    throw new Error("useUser must be wrapped within UserProvider")
+  }
 
-    if(!context){
-        throw new Error("useUser must be wrapped within UserProvider")
-    }
-
-    return context
+  return context
 }
 
 export default useUser
