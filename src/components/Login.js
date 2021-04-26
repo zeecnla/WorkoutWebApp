@@ -26,7 +26,7 @@ function loginReducer(state, action) {
 }
 const Login = () => {
   const history = useHistory()
-  const [,setUser] = useUser()
+  const [, setUser] = useUser()
 
   const [state, dispatch] = useReducer(loginReducer, {
     email: "",
@@ -41,9 +41,9 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user
 
-        setUser({user})
+        setUser({ user })
         console.log("is this succes")
-        debugger;
+        debugger
         history.push("/")
       })
       .catch((error) => {
@@ -87,12 +87,22 @@ const Login = () => {
           onChange={handleOnChange}
           value={state.password}
         />
-        <button type="submit">Submit</button>
+        <button
+          class="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
       <span>
         <Link to="/signup">Click here to sign up instead</Link>
       </span>
-      <button onClick={() => signInWithGoogle()}>Sign in with google</button>
+      <button
+        class="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700"
+        onClick={() => signInWithGoogle()}
+      >
+        Sign in with google
+      </button>
     </>
   )
 }
