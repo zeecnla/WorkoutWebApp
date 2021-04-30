@@ -2,7 +2,10 @@ import React from "react"
 
 function WorkoutForm({ state, handleChange, handleSubmit }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      className="grid shadow bg-white m-2 p-4 rounded-sm"
+      onSubmit={handleSubmit}
+    >
       <label htmlFor="name">Name</label>
       <input
         id="name"
@@ -39,7 +42,12 @@ function WorkoutForm({ state, handleChange, handleSubmit }) {
         onChange={handleChange}
         value={state.weight}
       ></input>
-      <button type="submit">Submit</button>
+      <button
+        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 mt-2"
+        type="submit"
+      >
+        Submit
+      </button>
     </form>
   )
 }

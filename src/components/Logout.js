@@ -3,7 +3,7 @@ import { auth } from "../firebase"
 import useUser from "../context/auth"
 
 function Logout() {
-   const [,setUser] = useUser()
+  const [, setUser] = useUser()
   function signout() {
     auth
       .signOut()
@@ -15,7 +15,14 @@ function Logout() {
       })
   }
 
-  return <button onClick={()=> signout()}>Logout</button>
+  return (
+    <button
+      className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700 mt-2"
+      onClick={() => signout()}
+    >
+      Logout
+    </button>
+  )
 }
 
 export default Logout

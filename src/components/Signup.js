@@ -1,6 +1,6 @@
 import React, { useReducer } from "react"
 import { auth, signInWithGoogle, generateUserDocument } from "../firebase"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 
 function loginReducer(state, action) {
   switch (action.type) {
@@ -64,8 +64,9 @@ const Signup = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <div className="container flex flex-col p-6 justify-center m-auto h-screen">
+      <h1 className="text-center">LOGO HERE</h1>
+      <form className="grid grid-flow-row gap-2" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           id="name"
@@ -74,6 +75,7 @@ const Signup = () => {
           placeholder="Name"
           onChange={handleOnChange}
           value={state.name}
+          className="p-2 rounded-md  border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         <label htmlFor="username">Username</label>
         <input
@@ -83,6 +85,7 @@ const Signup = () => {
           placeholder="User Name"
           onChange={handleOnChange}
           value={state.displayName}
+          className="p-2 rounded-md border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
 
         <label htmlFor="email">Email</label>
@@ -99,6 +102,7 @@ const Signup = () => {
             })
           }
           value={state.email}
+          className="p-2 rounded-md border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         <label htmlFor="password">Password</label>
         <input
@@ -108,12 +112,32 @@ const Signup = () => {
           placeholder="Password"
           onChange={handleOnChange}
           value={state.password}
+          className="p-2 rounded-md border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         {state.error !== null ?? <span>There was an error {state.error}</span>}
-        <button type="submit">Submit</button>
+        <button
+          className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-purple-500 hover:bg-purple-700 mt-2"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
-      <button onClick={() => googleSignIn()}>Sign in with Google</button>
-    </>
+      <button
+        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700 mt-2"
+        onClick={() => googleSignIn()}
+      >
+        Sign in with Google
+      </button>
+      <span className="mt-2">
+        <p>
+          Click{" "}
+          <Link to="/" className="border-b-2 hover:underline bg-blue-100">
+            here
+          </Link>{" "}
+          to login instead
+        </p>
+      </span>
+    </div>
   )
 }
 

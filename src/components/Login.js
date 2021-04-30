@@ -61,8 +61,9 @@ const Login = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <div className="container flex flex-col p-6 justify-center m-auto h-screen">
+      <h1 className="text-center">LOGO HERE</h1>
+      <form className="grid grid-flow-row gap-2" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -77,6 +78,7 @@ const Login = () => {
             })
           }
           value={state.email}
+          className="p-2 rounded-md  border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         <label htmlFor="password">Password</label>
         <input
@@ -86,24 +88,31 @@ const Login = () => {
           placeholder="Password"
           onChange={handleOnChange}
           value={state.password}
+          className="p-2 rounded-md  border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         <button
-          class="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700"
+          className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 mt-2"
           type="submit"
         >
           Submit
         </button>
       </form>
-      <span>
-        <Link to="/signup">Click here to sign up instead</Link>
-      </span>
       <button
-        class="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700"
+        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700 mt-2"
         onClick={() => signInWithGoogle()}
       >
         Sign in with google
       </button>
-    </>
+      <span className="mt-2">
+        <p>
+          Click{" "}
+          <Link to="/signup" className="border-b-2 hover:underline bg-blue-100">
+            here
+          </Link>{" "}
+          to sign up instead
+        </p>
+      </span>
+    </div>
   )
 }
 

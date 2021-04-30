@@ -37,7 +37,6 @@ function Dashboard() {
     weight: 0,
   })
   const [user] = useUser()
-  console.log(user)
   useEffect(() => {
     getAllUserWorkouts(user).then((response) => {
       response.forEach((doc) => {
@@ -56,16 +55,13 @@ function Dashboard() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    console.log("submitting")
-    console.log(stateForm)
-    console.log(user)
     setState((prevState) => [...prevState, stateForm])
     generateUserWorkout(stateForm, user)
   }
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1 className="font-black text-center text-2xl">Dashboard</h1>
       <WorkoutForm
         state={stateForm}
         handleChange={handleChange}

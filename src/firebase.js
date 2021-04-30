@@ -28,7 +28,7 @@ export const generateUserWorkout = async (workout, user) => {
   if (!user) return
 
   const { name, reps, sets, weight } = workout
-  const date = new Date()
+  const date = parseInt((new Date().getTime() / 1000).toFixed(0))
   firestore
     .collection("users")
     .doc(user.uid)
@@ -56,6 +56,8 @@ export const getAllUserWorkouts = (user) => {
       .collection("users")
       .doc(user.uid)
       .collection("workouts")
+      .orderBy("date")
+      .limit(2)
       .get()
     // .then((results) => {
     //   results.forEach((doc) => {
