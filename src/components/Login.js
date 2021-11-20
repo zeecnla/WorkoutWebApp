@@ -2,6 +2,7 @@ import React, { useReducer } from "react"
 import { auth, signInWithGoogle } from "../firebase"
 import { Link, useHistory } from "react-router-dom"
 import useUser from "../context/auth"
+import { Wrapper, Title, Button, GoogleButton, Input } from "./styledComponents"
 //TODO: Instead of use state. try using use reducer since we have multiple values in our object
 function loginReducer(state, action) {
   switch (action.type) {
@@ -61,8 +62,8 @@ const Login = () => {
   }
 
   return (
-    <div className="container flex flex-col p-6 justify-center m-auto h-screen">
-      <h1 className="text-center">LOGO HERE</h1>
+    <Wrapper>
+      <Title>Login</Title>
       <form className="grid grid-flow-row gap-2" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
@@ -81,7 +82,7 @@ const Login = () => {
           className="p-2 rounded-md  border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
         <label htmlFor="password">Password</label>
-        <input
+        <Input
           id="password"
           type="password"
           name="password"
@@ -90,19 +91,13 @@ const Login = () => {
           value={state.password}
           className="p-2 rounded-md  border-b-2 shadow-md focus:outline-none focus:ring-2 focus:border-transparent focus:ring-purple-600"
         />
-        <button
-          className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-700 mt-2"
-          type="submit"
-        >
+        <Button primary type="submit">
           Submit
-        </button>
+        </Button>
       </form>
-      <button
-        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700 mt-2"
-        onClick={() => signInWithGoogle()}
-      >
+      <GoogleButton onClick={() => signInWithGoogle()}>
         Sign in with google
-      </button>
+      </GoogleButton>
       <span className="mt-2">
         <p>
           Click{" "}
@@ -112,7 +107,7 @@ const Login = () => {
           to sign up instead
         </p>
       </span>
-    </div>
+    </Wrapper>
   )
 }
 
