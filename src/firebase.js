@@ -27,7 +27,7 @@ export const signInWithGoogle = () => {
 export const generateUserWorkout = async (workout, user) => {
   if (!user) return
 
-  const { name, reps, sets, weight } = workout
+  const { name, reps, sets, weight, bodypart } = workout
   const date = parseInt((new Date().getTime() / 1000).toFixed(0))
   firestore
     .collection("users")
@@ -39,6 +39,7 @@ export const generateUserWorkout = async (workout, user) => {
       sets,
       weight,
       date,
+      bodypart,
     })
     .then((docRef) => {
       console.log("success")

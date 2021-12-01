@@ -6,7 +6,7 @@ function WorkoutList({ workouts }) {
     <>
       <h3 className="font-black text-center">Workout list</h3>
       <div className="grid grid-cols-1 md:grid-cols-3">
-        {workouts ? (
+        {workouts.length >= 1 ? (
           workouts.map((workout, index) => (
             <Workout key={index} workout={workout} />
           ))
