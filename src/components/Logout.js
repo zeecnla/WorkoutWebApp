@@ -1,13 +1,14 @@
 import React from "react"
 import { auth } from "../firebase"
 import useUser from "../context/auth"
+import { LogoutButton } from "./styledComponents"
 
 function Logout() {
   const [, setUser] = useUser()
   function signout() {
     auth
       .signOut()
-      .then((userCredential) => {
+      .then(() => {
         setUser(null)
       })
       .catch((error) => {
@@ -15,14 +16,7 @@ function Logout() {
       })
   }
 
-  return (
-    <button
-      className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-red-500 hover:bg-red-700 mt-2"
-      onClick={() => signout()}
-    >
-      Logout
-    </button>
-  )
+  return <LogoutButton onClick={() => signout()}>Logout</LogoutButton>
 }
 
 export default Logout

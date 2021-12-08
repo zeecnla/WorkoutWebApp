@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Navigation, Button, LogoutButton } from "./styledComponents"
+import Logout from "./Logout"
 
 const Navbar = () => {
   return (
@@ -25,13 +25,16 @@ const Navbar = () => {
           <h3>Workout Tracker</h3>
         </li>
         <li>
-          <LogoutButton
+          <Link to="./Profile">Profile</Link>
+        </li>
+        <li>
+          <Logout
             style={{
               alignSelf: "end",
             }}
           >
             Logout
-          </LogoutButton>
+          </Logout>
         </li>
       </ul>
     </nav>

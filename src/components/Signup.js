@@ -126,9 +126,6 @@ const Signup = () => {
             Submit
           </Button>
         </Form>
-        <GoogleButton onClick={() => googleSignIn()}>
-          Sign in with Google
-        </GoogleButton>
         <span className="mt-2">
           <p>
             Click{" "}

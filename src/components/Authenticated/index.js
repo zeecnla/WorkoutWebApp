@@ -6,10 +6,11 @@ import useUser from "../../context/auth"
 
 import WorkoutForm from "../WorkoutForm"
 import { BrowserRouter as Router } from "react-router-dom"
-import { Button, Title } from "../styledComponents"
+import { Button } from "../styledComponents"
 import Navbar from "../Navbar"
 
-import { getAllUserWorkouts, generateUserWorkout } from "../../firebase"
+import { generateUserWorkout } from "../../firebase"
+import { Profile } from "./Profile"
 
 function workoutFormReducer(state, action) {
   switch (action.type) {
@@ -122,6 +123,9 @@ function Authenticated() {
           <Switch>
             <Route exact path="/">
               <Dashboard />
+            </Route>
+            <Route exaxt path="/Profile">
+              <Profile />
             </Route>
           </Switch>
         </div>
