@@ -13,6 +13,12 @@ export const Wrapper = styled.section`
   justify-content: center;
   align-items: center;
 `
+export const ChartWrapper = styled(Wrapper)`
+  display: flex;
+  flex-direction: column;
+  justify-content: normal;
+  align-items: normal;
+`
 
 export const Title = styled.h1`
   font-size: 1.5em;
@@ -58,6 +64,13 @@ export const LogoutButton = styled(GoogleButton)`
 `
 
 export const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  background: #f8f0e3;
+  border: none;
+  border-radius: 3px;
+`
+export const Select = styled.select`
   padding: 0.5em;
   margin: 0.5em;
   background: #f8f0e3;

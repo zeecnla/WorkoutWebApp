@@ -58,8 +58,30 @@ export const getAllUserWorkouts = (user) => {
       .doc(user.uid)
       .collection("workouts")
       .orderBy("date")
-      .limit(2)
+      .limit(10)
       .get()
+    // .then((results) => {
+    //   results.forEach((doc) => {
+    //     console.log(doc.id, "=>", doc.data())
+    //     workouts.push(doc.data())
+    //   })
+    // })
+  } catch (error) {
+    console.log("Error retrieveing items")
+  }
+}
+
+export const getUserWorkoutPlots = (user) => {
+  if (!user) return
+
+  try {
+    return firestore
+      .collection("users")
+      .doc(user.uid)
+      .collection("workouts")
+      .orderBy("date")
+      .get()
+
     // .then((results) => {
     //   results.forEach((doc) => {
     //     console.log(doc.id, "=>", doc.data())

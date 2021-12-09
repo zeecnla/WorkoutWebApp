@@ -11,6 +11,7 @@ import Navbar from "../Navbar"
 
 import { generateUserWorkout } from "../../firebase"
 import { Profile } from "./Profile"
+import { Charts } from "./Charts"
 
 function workoutFormReducer(state, action) {
   switch (action.type) {
@@ -53,6 +54,7 @@ function Authenticated() {
   }
 
   function handleChange(event) {
+    console.log(event.target)
     dispatch({
       type: `SET_FIELD`,
       field: event.target.name,
@@ -126,6 +128,9 @@ function Authenticated() {
             </Route>
             <Route exaxt path="/Profile">
               <Profile />
+            </Route>
+            <Route exact path="/Charts">
+              <Charts />
             </Route>
           </Switch>
         </div>

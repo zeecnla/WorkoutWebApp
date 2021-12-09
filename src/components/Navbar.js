@@ -25,6 +25,9 @@ const Navbar = () => {
           <h3>Workout Tracker</h3>
         </li>
         <li>
+          <Link to="./Charts">Charts</Link>
+        </li>
+        <li>
           <Link to="./Profile">Profile</Link>
         </li>
         <li>

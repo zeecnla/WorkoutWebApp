@@ -12,6 +12,7 @@ import {
   FullScreen,
   ErrorMessage,
 } from "./styledComponents"
+import Loading from "./utils/Loading"
 //TODO: Instead of use state. try using use reducer since we have multiple values in our object
 function loginReducer(state, action) {
   switch (action.type) {
@@ -26,6 +27,7 @@ function loginReducer(state, action) {
         ...state,
         email: "",
         password: "",
+        isLoading: false,
       }
     }
 
@@ -42,10 +44,17 @@ const Login = () => {
     email: "",
     password: "",
     errorMessage: null,
+    isLoading: false,
   })
 
   function handleSubmit(event) {
     event.preventDefault()
+    dispatch({
+      type: `SET_FIELD`,
+      field: `isLoading`,
+      payload: true,
+    })
+
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then((userCredential) => {
@@ -73,6 +82,13 @@ const Login = () => {
         })
         console.error("Error signing in with password and email", error)
       })
+      .finally(() =>
+        dispatch({
+          type: `SET_FIELD`,
+          field: `isLoading`,
+          payload: false,
+        })
+      )
   }
   const handleOnChange = (event) => {
     const { name, value } = event.target
@@ -84,7 +100,7 @@ const Login = () => {
       <Wrapper>
         <Title inputColor="#fff">Login</Title>
         {state.errorMessage ?? (
-          <ErrorMessage>{state.errorMessage}</ErrorMessage>
+          <p style={{ color: "red" }}>{state.errorMessage}</p>
         )}
         <Form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
